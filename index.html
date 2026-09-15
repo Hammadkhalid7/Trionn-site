@@ -147,16 +147,33 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
 
-    /* RAF loop — Lenis may animate scroll without firing native events */
+    /* RAF loop — Lenis may animate scroll without firing native events.
+       Throttled: only schedules next frame when scroll actually moved. */
     var lastScrollY = -1;
-    function rafLoop() {
+    var rafPending = false;
+    function rafTick() {
+      rafPending = false;
       if (window.scrollY !== lastScrollY) {
         lastScrollY = window.scrollY;
         onScroll();
+        rafPending = true;
+        requestAnimationFrame(rafTick);
       }
-      requestAnimationFrame(rafLoop);
     }
-    requestAnimationFrame(rafLoop);
+    window.addEventListener('scroll', function() {
+      if (!rafPending) { rafPending = true; requestAnimationFrame(rafTick); }
+    }, { passive: true });
+
+    /* Pause iframe WebGL when the logo is scrolled fully off-screen */
+    if (logoFrame && typeof IntersectionObserver !== 'undefined') {
+      var logoObs = new IntersectionObserver(function(entries) {
+        var vis = entries[0].isIntersecting;
+        if (logoFrame && logoFrame.contentWindow) {
+          logoFrame.contentWindow.postMessage({ markitonFrameloop: vis ? 'always' : 'never' }, '*');
+        }
+      }, { threshold: 0 });
+      logoObs.observe(logoFrame);
+    }
   }
 
   /* After window.load React hydration is done; small delay for GSAP layout */
