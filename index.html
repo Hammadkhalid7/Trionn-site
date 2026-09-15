@@ -39,6 +39,21 @@
   visibility: hidden !important;
 }
 
+/* GPU compositor layer isolation — each animated section composites independently */
+#trionn-services {
+  contain: layout style paint;
+  will-change: transform;
+}
+#hero-section {
+  contain: layout style paint;
+  will-change: transform;
+}
+/* Keep hero frame canvas crisp, no interpolation lag */
+#trionn-services img, #trionn-services canvas {
+  image-rendering: auto;
+  will-change: contents;
+}
+
 </style>
 <script>
 (function () {
@@ -84,7 +99,7 @@
     logoFrame.id = 'markiton-logo-frame';
     logoFrame.src = '/markiton-logo/index.html';
     logoFrame.setAttribute('allowtransparency', 'true');
-    logoFrame.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;border:none;z-index:1;pointer-events:none;background:transparent;opacity:0;transition:opacity 0.9s ease;';
+    logoFrame.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;border:none;z-index:1;pointer-events:none;background:transparent;opacity:0;transition:opacity 0.9s ease;will-change:transform;transform:translateZ(0);contain:layout style paint;isolation:isolate;';
     document.body.insertBefore(logoFrame, document.body.firstChild);
 
     /* Fade the iframe in once the page loader (.pl-overlay) is gone */
