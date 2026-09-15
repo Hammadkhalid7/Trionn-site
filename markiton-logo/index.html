@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: transparent; }
+    #root { width: 100%; height: 100%; }
+    /* Kill the original app's scroll layout and decorative overlay */
+    .experience {
+      min-height: 100% !important;
+      background: transparent !important;
+      overflow: hidden !important;
+    }
+    .experience::after { display: none !important; }
+    .scroll-copy { display: none !important; }
+    /* canvas-wrap stays position:fixed (fills the iframe = fills the hero) */
+    .canvas-wrap { background: transparent !important; }
+  </style>
+  <link rel="stylesheet" href="/markiton-logo/assets/index-CcRbY0F_.css">
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/markiton-logo/assets/index-BG_GyS7x.js"></script>
+</body>
+</html>
