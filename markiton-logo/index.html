@@ -19,6 +19,17 @@
     .canvas-wrap { background: transparent !important; }
   </style>
   <link rel="stylesheet" href="/markiton-logo/assets/index-CcRbY0F_.css">
+  <style>
+    /* Mobile: shrink canvas to a centered square so the 3D model
+       appears smaller and centered in the hero instead of full-screen */
+    @media (max-width: 700px) {
+      /* Disable compiled-CSS canvas scale — sizing is done via the iframe
+         element in the parent page so R3F never sees a transformed container */
+      .canvas-wrap {
+        transform: none !important;
+      }
+    }
+  </style>
 </head>
 <body>
   <div id="root"></div>
